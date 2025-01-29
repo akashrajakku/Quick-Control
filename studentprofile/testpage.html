@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizControl - Test Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007b8f;
+        }
+        .header .nav a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* Sidebar styles */
+        .container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007b8f;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .sidebar .menu-item {
+            padding: 10px;
+            background-color: white;
+            color: #007b8f;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .menu-item:hover {
+            background-color: #ffc107;
+            color: black;
+        }
+        .sidebar .menu-item i {
+            margin-right: 10px;
+        }
+        .sidebar .footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        /* Content and Card styling */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #007b8f;
+            color: white;
+            border-radius: 5px;
+            width: 300px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            text-decoration: none;
+        }
+        .card:hover {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+        .card .time {
+            display: flex;
+            align-items: center;
+            background-color: #ffc107;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .card .time i {
+            margin-right: 5px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .menu-toggle {
+                display: block;
+                color: #007b8f;
+                font-size: 24px;
+                margin-right: 20px;
+                cursor: pointer;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">Quiz<span>Control</span></div>
+        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+        <div class="nav">
+            <a href="homepage.html">Home</a>
+            <a href="testpage.html">Take Test</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <a href="dashboard.html" class="menu-item"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="result.html" class="menu-item"><i class="fas fa-poll"></i> View Past Results</a>
+            <a href="accountsettings.html" class="menu-item"><i class="fas fa-cog"></i> Account Settings</a>
+            <a href="homepage.html" class="menu-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <div class="footer">
+                <i class="fas fa-user-circle"></i>
+                <span>student_id</span>
+            </div>
+        </div>
+
+        <!-- Content Area with Cards -->
+        <div class="content">
+            <div class="card-container">
+                <a href="instructions.html" class="card">
+                    <div>
+                        <div>Cognizant</div>
+                        <div>Aptitude Round</div>
+                    </div>
+                    <div class="time">
+                        <i class="fas fa-clock"></i>
+                        <span>120 Minutes</span>
+                    </div>
+                </a>
+                <a href="instructions.html" class="card">
+                    <div>
+                        <div>Cognizant</div>
+                        <div>Coding Round</div>
+                    </div>
+                    <div class="time">
+                        <i class="fas fa-clock"></i>
+                        <span>90 Minutes</span>
+                    </div>
+                </a>
+                <a href="instructions.html" class="card">
+                    <div>
+                        <div>Company_name</div>
+                        <div>Round_type</div>
+                    </div>
+                    <div class="time">
+                        <i class="fas fa-clock"></i>
+                        <span>60 Minutes</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile view
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

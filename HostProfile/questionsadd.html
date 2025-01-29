@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QuizControl - Add Questions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007b8f;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .sidebar .logo span {
+            color: #000;
+        }
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            color: #000;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .sidebar .menu-item.active {
+            background-color: #ffc107;
+        }
+        .sidebar .menu-item i {
+            margin-right: 10px;
+        }
+        .sidebar .profile {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .sidebar .profile i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .main-content .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .main-content .finish-btn {
+            background-color: #007b8f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .main-content .question-box {
+            border: 2px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .main-content .question-box .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .main-content .question-box .points {
+            color: #007b8f;
+            cursor: pointer;
+        }
+        .main-content .question-box .points:hover {
+            text-decoration: underline;
+        }
+        .main-content .question-box .answer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .main-content .question-box .answer input[type="text"] {
+            flex-grow: 1;
+            padding: 5px;
+            border: 1px solid #007b8f;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .main-content .question-box .answer i {
+            color: #007b8f;
+            margin-left: 10px;
+            display: none; /* Hidden by default */
+        }
+        .main-content .question-box .add-option {
+            color: #007b8f;
+            cursor: pointer;
+        }
+        .main-content .question-box .add-option:hover {
+            text-decoration: underline;
+        }
+        .main-content .add-question {
+            color: #007b8f;
+            cursor: pointer;
+        }
+        .main-content .add-question:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div>
+            <div class="logo">Quiz<span>Control</span></div>
+            <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="testpage.html" class="menu-item"><i class="fas fa-file-alt"></i> Tests</a>
+            <a href="result.html" class="menu-item"><i class="fas fa-chart-bar"></i> Results</a>
+            <a href="students.html" class="menu-item"><i class="fas fa-users"></i> Students</a>
+            <a href ="settings.html" class="menu-item"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+        <div class="profile">
+            <i class="fas fa-user-circle"></i>
+            < div class="profile-info">
+                <div>Admin</div>
+                <div>admin@example.com</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Add Questions</h1>
+            <button class="finish-btn" onclick="finishTest()">Finish</button>
+        </div>
+        <div id="questions-container"></div>
+        <div class="add-question" onclick="addQuestion()">+ Add Question</div>
+    </div>
+    <script>
+        let questionCount = 0;
+
+        function finishTest() {
+            const title = document.getElementById('test-title').value;
+            const points = document.getElementById('test-points').value;
+            localStorage.setItem('testTitle', title);
+            localStorage.setItem('testPoints', points);
+            window.location.href = 'managetest.html';
+        }
+
+        function addQuestion() {
+            questionCount++;
+            const questionBox = document .createElement('div');
+            questionBox.className = 'question-box';
+            questionBox.innerHTML = `
+                <div class ="question-header">
+                    <input type="text" placeholder="Enter your question" id="question-${questionCount}">
+                    <span class="points" onclick="addPoints(${questionCount})">Add Points</span>
+                </div>
+                <div class="answers" id="answers-${questionCount}"></div>
+                <div class="add-option" onclick="addAnswer(${questionCount})">+ Add Answer</div>
+                <div class="add-question" onclick="addQuestion()">+ Add Question</div>
+            `;
+            document.getElementById('questions-container').appendChild(questionBox);
+        }
+
+        function addPoints(questionId) {
+            const points = prompt("Enter points for this question:");
+            if (points) {
+                const pointsElement = document.createElement('div');
+                pointsElement.textContent = `Points: ${points}`;
+                document.getElementById(`question-${questionId}`).parentNode.appendChild(pointsElement);
+            }
+        }
+
+        function addAnswer(questionId) {
+            const answersContainer = document.getElementById(`answers-${questionId}`);
+            const answerCount = answersContainer.children.length;
+
+            if (answerCount < 4) {
+                const answerBox = document.createElement('div');
+                answerBox.className = 'answer';
+                answerBox.innerHTML = `
+                    <input type="text" placeholder="Enter answer option" id="answer-${questionId}-${answerCount + 1}">
+                    <input type="radio" name="correct-answer-${questionId}" value="${answerCount + 1}">
+                    <i class="fas fa-check" style="display: none;"></i>
+                `;
+                answersContainer.appendChild(answerBox);
+
+                const inputField = answerBox.querySelector('input[type="text"]');
+                inputField.addEventListener('input', function() {
+                    answerBox.querySelector('i').style.display = inputField.value ? 'inline' : 'none';
+                });
+
+                if (answerCount === 3) {
+                    const addOptionButton = document.querySelector(`.add-option[onclick="addAnswer(${questionId})"]`);
+                    addOptionButton.style.display = 'none'; // Hide the button after 4 options
+                }
+            }
+        }
+    </script>
+</body>
+</html>

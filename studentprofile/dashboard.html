@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizControl Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            border-bottom: 1px solid #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .logo span {
+            color: #00a2e8;
+        }
+        .header .nav a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #00a2e8;
+            cursor: pointer;
+        }
+
+        /* Sidebar Styling */
+        .container {
+            display: flex;
+            flex-grow: 1;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bb5;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            color: #007bb5;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        .sidebar .menu-item:hover {
+            background-color: #ffc107;
+            color: black;
+        }
+        .sidebar .menu-item i {
+            margin-right: 10px;
+        }
+        .sidebar .footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        /* Content and Image Styling */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 270px;
+            background-image: url('https://picsum.photos/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .content h1, .content h2 {
+            margin: 0;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header .nav {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100%;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .content {
+                margin-left: 0;
+                padding: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">Quiz<span>Control</span></div>
+        <i class="fas fa-bars menu-toggle" onclick="toggleSidebar()"></i>
+        <div class="nav">
+            <a href="homepage.html">Home</a>
+            <a href="testpage.html">Take Test</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Section -->
+        <div class="sidebar" id="sidebar">
+            <a href="dashboard.html" class="menu-item"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="testpage.html" class="menu-item"><i class="fas fa-clipboard-list"></i> Tests</a>
+            <a href="result.html" class="menu-item"><i class="fas fa-poll"></i> View Past Results</a>
+            <a href="accountsettings.html" class="menu-item"><i class="fas fa-cog"></i> Account Settings</a>
+            <a href="homepage.html" class="menu-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <div class="footer">
+                <i class="fas fa-user-circle"></i>
+                <span>student_id</span>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <h1>Welcome</h1>
+            <h2>Student_Name</h2>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile view
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

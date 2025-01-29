@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizControl - Test Duration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #007b8f;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00b5e2;
+        }
+        .sidebar .logo span {
+            color: black;
+        }
+        .sidebar .menu a {
+            margin-top: 20px;
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            display: block;
+        }
+        .sidebar .menu a:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+        .sidebar .profile {
+            margin-top: auto;
+            padding: 10px;
+            background-color: white;
+            color: black;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .profile i {
+            margin-right: 10px;
+        }
+
+        /* Content area */
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+        }
+        .content .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .content .header a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+        .form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group {
+            flex: 1 1 calc(50% - 20px);
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #00b5e2;
+            border-radius: 5px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group .time-input {
+            display: flex;
+            gap: 10px;
+        }
+        .form-group .time-input input {
+            width: calc(50% - 5px);
+        }
+        .form-group button {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #16a6ca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center; /* Center the button horizontally */
+            width: 100%; /* Ensure it takes the full width of the parent */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            .form-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">Quiz<span>Control</span></div>
+        <div class="menu">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="testpage.html"><i class="fas fa-file-alt"></i> Tests</a>
+            <a href="result.html"><i class="fas fa-chart-bar"></i> Results</a>
+            <a href="accountsettings.html"><i class="fas fa-cog"></i> Account Settings</a>
+            <a href="homepage.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        <div class="profile">
+            <i class="fas fa-user-circle"></i> host_id
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="header">
+            <a href="#">Home</a>
+            <a href="#">Take Test</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="form">
+            <div class="form-group">
+                <label for="test-name">Test Title</label>
+                <input type="text" id="test-name" placeholder="Enter test title">
+            </div><br>
+            <div class="form-group">
+                <label for="test-duration">Test Duration (Hours:Minutes)</label>
+                <div class="time-input">
+                    <input type="number" id="duration-hrs" placeholder="Hrs" min="0">
+                    <input type="number" id="duration-mins" placeholder="Mins" min="0" max="59">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="batch">Batch</label>
+                <input type="number" id="batch" placeholder="Enter batch number">
+            </div><br>
+            <div class="form-group">
+                <label for="window-live-duration">Window Live Duration (Hours:Minutes)</label>
+                <div class="time-input">
+                    <input type="number" id="window-hrs" placeholder="Hrs" min="0">
+                    <input type="number" id="window-mins" placeholder="Mins" min="0" max="59">
+                </div>
+            </div>
+            <div class="form-group button-group">
+                <button type="button" onclick="handleNext()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleNext() {
+            // Example of updating managetest.html and dashboard.html data
+            const testTitle = document.getElementById('test-name').value;
+            const durationHrs = document.getElementById('duration-hrs').value;
+            const durationMins = document.getElementById('duration-mins').value;
+            const batch = document.getElementById('batch').value;
+            const windowHrs = document.getElementById('window-hrs').value;
+            const windowMins = document.getElementById('window-mins').value;
+
+            // Simulating update logic (you can adjust this part as per your data handling logic)
+            console.log(`Test "${testTitle}" added with duration ${durationHrs} hrs ${durationMins} mins for batch ${batch}.`);
+            console.log(`Window live duration: ${windowHrs} hrs ${windowMins} mins.`);
+
+            // Redirect to questionsadd.html
+            window.location.href = 'questionsadd.html';
+        }
+    </script>
+</body>
+</html>

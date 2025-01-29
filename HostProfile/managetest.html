@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizControl - Manage Tests</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #007b8f;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            height: 100vh;
+        }
+        .sidebar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .sidebar .menu-item {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .menu-item i {
+            margin-right: 10px;
+        }
+        .sidebar .menu-item:hover {
+            background-color: #ffcc00;
+            color: black;
+        }
+        .sidebar .profile {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Content area */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #ffcc00;
+            border-radius: 5px 0 0 5px;
+        }
+        .search-bar button {
+            padding: 10px;
+            border: 1px solid #ffcc00;
+            background-color: #ffcc00;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .add-test-btn {
+            padding: 10px 20px;
+            background-color: #007b8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Test Cards */
+        .test-card {
+            border: 1px solid #ffcc00;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .test-card h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .test-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .test-card .status {
+            font-weight: bold;
+            color: green;
+            margin-bottom: 10px;
+        }
+        .test-card .edit-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .test-card .edit-delete i {
+            cursor: pointer;
+            color: #007b8f;
+        }
+        .test-card .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .test-card .actions button {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .test-card .conduct-btn {
+            background-color: #ffcc00;
+            color: black;
+        }
+        .test-card .schedule-btn {
+            background-color: #ffcc00;
+            color: black;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .test-card {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">QuizControl</div>
+        <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="testpage.html" class="menu-item"><i class="fas fa-file-alt"></i> Tests</a>
+        <a href="result.html" class="menu-item"><i class="fas fa-chart-bar"></i> Results</a>
+        <a href="students.html" class="menu-item"><i class="fas fa-user-graduate"></i> Students</a>
+        <a href="accountsettings.html" class="menu-item"><i class="fas fa-cog"></i> Account Settings</a>
+        <a href="homepage.html" class="menu-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <div class="profile">
+            <i class="fas fa-user-circle"></i> host_id
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search Tests">
+                <button onclick="searchTests()"><i class="fas fa-search"></i></button>
+                <button onclick="showFilterOptions()" class="filter-btn"><i class="fas fa-filter"></i></button>
+                <select id="filterOptions" onchange="filterTests()" style="display:none;">
+                    <option value="">All Tests</option>
+                    <option value="ongoing">Ongoing Tests</option>
+                    <option value="upcoming">Upcoming Tests</option>
+                    <option value="ended">Ended Tests</option>
+                </select>
+            </div>
+            <button class="add-test-btn" onclick="window.location.href='testduration.html'">+ Add Test</button>
+        </div>
+
+        <!-- Test Cards -->
+        <div id="testContainer">
+            <div class="test-card" data-status="ongoing">
+                <div class="edit-delete">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h2>Test No 1</h2>
+                <p>Duration: 90 Min</p>
+                <p>Total Marks: 100</p>
+                <p>No of Questions: 50</p>
+                <p>19 May 2024</p>
+                <p class="status">Ongoing</p>
+                <div class="actions">
+                    <button class="conduct-btn">Conduct Test</button>
+                    <button class="schedule-btn">Schedule</button>
+                </div>
+            </div>
+
+            <div class="test-card" data-status="upcoming">
+                <div class="edit-delete">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h2>Test No 2</h2>
+                <p>Duration: 60 Min</p>
+                <p>Total Marks: 80</p>
+                <p>No of Questions: 40</p>
+                <p>25 May 2024</p>
+                <p class="status">Upcoming</p>
+                <div class="actions">
+                    <button class="conduct-btn">Conduct Test</button>
+                    <button class="schedule-btn">Schedule</button>
+                </div>
+            </div>
+        
+            <div class="test-card" data-status="ended">
+                <div class="edit-delete">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h2>Test No 3</h2>
+                <p>Duration: 75 Min</p>
+                <p>Total Marks: 90</p>
+                <p>No of Questions: 45</p>
+                <p>15 May 2024</p>
+                <p class="status">Ended</p>
+                <div class="actions">
+                    <button class="conduct-btn">Conduct Test</button>
+                    <button class="schedule-btn">Schedule</button>
+                </div>
+            </div>
+        
+            <div class="test-card" data-status="upcoming">
+                <div class="edit-delete">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h2>Test No 4</h2>
+                <p>Duration: 120 Min</p>
+                <p>Total Marks: 150</p>
+                <p>No of Questions: 60</p>
+                <p>30 May 2024</p>
+                <p class="status">Upcoming</p>
+                <div class="actions">
+                    <button class="conduct-btn">Conduct Test</button>
+                    <button class="schedule-btn">Schedule</button>
+                </div>
+            </div>
+        
+            <div class="test-card" data-status="ongoing">
+                <div class="edit-delete">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h2>Test No 5</h2>
+                <p>Duration: 45 Min</p>
+                <p>Total Marks: 60</p>
+                <p>No of Questions: 30</p>
+                <p>18 May 2024</p>
+                <p class="status">Ongoing</p>
+                <div class="actions">
+                    <button class="conduct-btn">Conduct Test</button>
+                    <button class="schedule-btn">Schedule</button>
+                </div>
+            </div>
+            <!-- Repeat for other test cards -->
+        </div>
+    </div>
+
+    <script>
+        // Function to show the filter options
+        function showFilterOptions() {
+            const filterOptions = document.getElementById('filterOptions');
+            filterOptions.style.display = filterOptions.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Function to filter tests by status
+        function filterTests() {
+            const selectedFilter = document.getElementById('filterOptions').value;
+            const testCards = document.querySelectorAll('.test-card');
+            testCards.forEach(card => {
+                if (selectedFilter === "" || card.getAttribute('data-status') === selectedFilter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to search tests by name
+        function searchTests() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const testCards = document.querySelectorAll('.test-card');
+            testCards.forEach(card => {
+                const testName = card.querySelector('h2').textContent.toLowerCase();
+                card.style.display = testName.includes(searchInput) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

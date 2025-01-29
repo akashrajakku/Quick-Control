@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizControl - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url('https://storage.googleapis.com/a1aa/image/pORZ2wxxZQamHVgXjyQY1WxgexFxWJbVQLBgoLK8w2schd0JA.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        /* Header styling */
+        .header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007b8f;
+        }
+        .header .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+        .header .nav-links a:hover {
+            color: #007bb5;
+        }
+
+        /* Get Started Button */
+        .get-started-btn {
+            width: 20%;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #007b8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .get-started-btn:hover {
+            background-color: #005f6b;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .close {
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+        }
+        .close:hover {
+            color: black;
+        }
+
+        /* Tabs for Host and Admin */
+        .tabs {
+            display: flex;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+        .tab.active {
+            color: white;
+            font-weight: bold;
+        }
+        .slider {
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            background-color: #007b8f;
+            top: 0;
+            z-index: 0;
+            border-radius: 5px;
+            transition: left 0.3s;
+        }
+
+        /* Input and button styling */
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007b8f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .signup-link, .login-link {
+            font-size: 14px;
+            color: #007b8f;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .signup-link:hover, .login-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Message display styling */
+        .message-box {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        .message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">QuizControl</div>
+        <div class="nav-links">
+            <a href="homepage.html">Home</a>
+            <a href="testpage.html">Take Test</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Get Started Button -->
+    <button class="get-started-btn" onclick="openModal()">Get Started</button>
+
+    <!-- Modal for Login and Sign Up -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="tabs">
+                <div class="slider" id="slider"></div>
+                <div class="tab" id="hostTab" onclick="showHost()">Host</div>
+                <div class="tab" id="adminTab" onclick="showAdmin()">Admin</div>
+            </div>
+            
+            <!-- Host Login and Sign Up Form -->
+            <div id="hostForm">
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email ID" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="button" onclick="login()">Login</button>
+                    <a href="#" class="signup-link" onclick="showSignUp()">Not a member? Sign Up</a>
+                </form>
+                <form id="signUpForm" style="display: none;">
+                    <input type="text" id="signupHostId" placeholder="Host's Number" required>
+                    <input type="email" id="signupEmail" placeholder="Email ID" required>
+                    <input type="text" id="signupCollege" placeholder="College" required>
+                    <input type="password" id="signupPassword" placeholder="Password" required>
+                    <button type="button" onclick="signup()">Sign Up</button>
+                    <a href="#" class="login-link" onclick="showLogin()">Already a member? Login</a>
+                </form>
+            </div>
+
+            <!-- Admin Login Form -->
+            <div id="adminForm" style="display: none;">
+                <form>
+                    <input type="text" placeholder="Email ID" required>
+                    <input type="password" placeholder="Password" required>
+                    <button>Login</button>
+                </form>
+            </div>
+
+            <!-- Message Display -->
+            <div id="messageBox" class="message-box"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal toggle functions
+        function openModal() {
+            document.getElementById("authModal").style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById("authModal").style.display = "none";
+        }
+
+        // Show and hide forms based on role
+        function showHost() {
+            document.getElementById("hostForm").style.display = "block";
+            document.getElementById("adminForm").style.display = "none";
+            document.getElementById("slider").style.left = "0";
+        }
+        function showAdmin() {
+            document.getElementById("hostForm").style.display = "none";
+            document.getElementById("adminForm").style.display = "block";
+            document.getElementById("slider").style.left = "50%";
+        }
+
+        // Toggle between login and sign-up forms
+        function showSignUp() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("signUpForm").style.display = "block";
+        }
+        function showLogin() {
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("signUpForm").style.display = "none";
+        }
+
+        // Default to host tab
+        showHost();
+
+        // Function to display messages
+        function displayMessage(message, isSuccess) {
+            const messageBox = document.getElementById("messageBox");
+            messageBox.textContent = message;
+            messageBox.className = `message-box ${isSuccess ? 'success' : 'error'}`;
+            messageBox.style.display = "block";
+        }
+
+        // Function to handle login
+        async function login() {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/v1/host/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    displayMessage(data.message, true);
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 2000);
+                } else {
+                    displayMessage(data.message, false);
+                }
+            } catch (error) {
+                displayMessage("Internal server error", false);
+            }
+        }
+
+        // Function to handle signup
+        async function signup() {
+            const hostId = document.getElementById("signupHostId").value;
+            const email = document.getElementById("signupEmail").value;
+            const college = document.getElementById("signupCollege").value;
+            const password = document.getElementById("signupPassword").value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/v1/host/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ hostId, email, college, password })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) {
+                    displayMessage(data.message, true);
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 2000);
+                } else {
+                    displayMessage(data.message, false);
+                }
+            } catch (error) {
+                displayMessage("Internal server error", false);
+            }
+        }
+    </script>
+</body>
+</html>

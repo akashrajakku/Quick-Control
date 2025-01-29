@@ -1,0 +1,114 @@
+<html>
+<head>
+    <title>Cognizant - Aptitude Round</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #0082ca;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .instructions {
+            padding: 20px;
+        }
+        .instructions h2 {
+            color: #0082ca;
+            font-size: 24px;
+        }
+        .instructions p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .instructions p span {
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .footer button {
+            background-color: #0082ca;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .footer button:hover {
+            background-color: #005f99;
+        }
+        .timer {
+            float: right;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .timer i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Cognizant - Aptitude Round
+            <div class="timer">
+                <i class="fas fa-clock"></i> 120 Minutes
+            </div>
+        </div>
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p><span>Check System Requirements:</span> Ensure your device meets the technical requirements (browser, internet speed, etc.) and test your webcam and microphone beforehand. It is suggested to use Chrome as a browser.</p>
+            <p><span>Stable Internet:</span> Use a reliable internet connection to avoid interruptions.</p>
+            <p><span>Quiet Environment:</span> Take the exam in a quiet, well-lit space with no distractions or background noise.</p>
+            <p><span>Follow Proctoring Guidelines:</span> Stay within the camera frame at all times, and avoid leaving the exam screen.</p>
+            <p><span>No External Devices:</span> Do not use mobile phones, calculators, or other devices unless explicitly allowed.</p>
+            <p><span>No Assistance:</span> Ensure you do not receive help from others or use unauthorized resources during the exam.</p>
+            <p><span>Maintain Focus:</span> Avoid looking away from the screen repeatedly, as eye-tracking and face detection may flag suspicious behavior.</p>
+            <p><span>Follow Time Limits:</span> Keep an eye on the time and manage it wisely.</p>
+            <p><span>Submit Before Time:</span> Submit your answers before the deadline to ensure they are recorded.</p>
+        </div>
+        <div class="footer">
+            <input type="checkbox" id="agree">
+            <label for="agree">I have read and understood the exam instructions, and I agree to follow all the guidelines mentioned above.</label>
+            <br>
+            <button onclick="goBack()">Go back</button>
+            <button onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            alert("Going back...");
+        }
+
+        function startTest() {
+            if (document.getElementById('agree').checked) {
+                alert("Starting test...");
+            } else {
+                alert("Please agree to the instructions before starting the test.");
+            }
+        }
+    </script>
+</body>
+</html>
