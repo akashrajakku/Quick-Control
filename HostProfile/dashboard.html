@@ -188,6 +188,7 @@
         <div class="sidebar" id="sidebar">
             <div class="logo">QuizControl</div>
             <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a class="menu-item" onclick="handleaddQues()" style="cursor: pointer;"><i class="fas fa-plus-circle"></i> Add Questions</a>
             <a href="managetest.html" class="menu-item"><i class="fas fa-file-alt"></i> Tests</a>
             <a href="#" class="menu-item"><i class="fas fa-chart-bar"></i> Results</a>
             <a href="testduration.html" class="menu-item"><i class="fas fa-user-graduate"></i> Questions</a>
@@ -218,19 +219,12 @@
     </div>
 
     <script>
-        // Variables for dynamic data display
-        let ongoingTests = 2;
-        let totalBatches = 5;
-        let upcomingTests = 2;
-
-        // Update the content dynamically
-        document.getElementById("ongoingTests").innerText = ongoingTests;
-        document.getElementById("totalBatches").innerText = totalBatches;
-        document.getElementById("upcomingTests").innerText = upcomingTests;
-
-        // Sidebar toggle for mobile view
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("active");
+        }
+
+        function handleaddQues(){
+            window.location.href = "questionsadd.html";
         }
     </script>
 </body>

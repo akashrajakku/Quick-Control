@@ -15,198 +15,154 @@
             background-color: #007b8f;
             color: white;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .sidebar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .sidebar .logo span {
-            color: #000;
-        }
-        .sidebar .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #fff;
-            color: #000;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .sidebar .menu-item.active {
-            background-color: #ffc107;
-        }
-        .sidebar .menu-item i {
-            margin-right: 10px;
-        }
-        .sidebar .profile {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .sidebar .profile i {
-            font-size: 24px;
-            margin-right: 10px;
         }
         .main-content {
             flex-grow: 1;
             padding: 20px;
         }
-        .main-content .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .main-content .finish-btn {
-            background-color: #007b8f;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .main-content .question-box {
+        .question-box {
             border: 2px solid #ffc107;
             padding: 20px;
             margin-bottom: 20px;
         }
-        .main-content .question-box .question-header {
+        .question-box input, .question-box select {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+        }
+        .buttons {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
-        .main-content .question-box .points {
-            color: #007b8f;
+        .buttons button {
+            padding: 10px;
             cursor: pointer;
         }
-        .main-content .question-box .points:hover {
-            text-decoration: underline;
-        }
-        .main-content .question-box .answer {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .main-content .question-box .answer input[type="text"] {
-            flex-grow: 1;
-            padding: 5px;
-            border: 1px solid #007b8f;
+        .finish-btn {
+            background-color: #007b8f;
+            color: white;
+            padding: 10px;
+            border: none;
             border-radius: 5px;
-            margin-right: 10px;
-        }
-        .main-content .question-box .answer i {
-            color: #007b8f;
-            margin-left: 10px;
-            display: none; /* Hidden by default */
-        }
-        .main-content .question-box .add-option {
-            color: #007b8f;
             cursor: pointer;
+            margin-bottom: 20px;
         }
-        .main-content .question-box .add-option:hover {
-            text-decoration: underline;
+        .success-message, .error-message {
+            display: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 5px;
         }
-        .main-content .add-question {
-            color: #007b8f;
-            cursor: pointer;
+        .success-message {
+            background: #d4edda;
+            color: #155724;
         }
-        .main-content .add-question:hover {
-            text-decoration: underline;
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <div>
-            <div class="logo">Quiz<span>Control</span></div>
-            <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="testpage.html" class="menu-item"><i class="fas fa-file-alt"></i> Tests</a>
-            <a href="result.html" class="menu-item"><i class="fas fa-chart-bar"></i> Results</a>
-            <a href="students.html" class="menu-item"><i class="fas fa-users"></i> Students</a>
-            <a href ="settings.html" class="menu-item"><i class="fas fa-cog"></i> Settings</a>
-        </div>
-        <div class="profile">
-            <i class="fas fa-user-circle"></i>
-            < div class="profile-info">
-                <div>Admin</div>
-                <div>admin@example.com</div>
-            </div>
-        </div>
+        <h2>QuizControl</h2>
     </div>
     <div class="main-content">
-        <div class="header">
-            <h1>Add Questions</h1>
-            <button class="finish-btn" onclick="finishTest()">Finish</button>
-        </div>
+        <div id="success-message" class="success-message">Question saved successfully!</div>
+        <div id="error-message" class="error-message"></div>
+        <button class="finish-btn" onclick="finishTest()">Finish</button>
+        <h1>Add Questions</h1>
         <div id="questions-container"></div>
-        <div class="add-question" onclick="addQuestion()">+ Add Question</div>
+        <button onclick="addQuestion()">+ Add Question</button>
     </div>
-    <script>
-        let questionCount = 0;
 
-        function finishTest() {
-            const title = document.getElementById('test-title').value;
-            const points = document.getElementById('test-points').value;
-            localStorage.setItem('testTitle', title);
-            localStorage.setItem('testPoints', points);
-            window.location.href = 'managetest.html';
-        }
+    <script>
+        let questionCount = 0; 
 
         function addQuestion() {
             questionCount++;
-            const questionBox = document .createElement('div');
+            const questionBox = document.createElement('div');
             questionBox.className = 'question-box';
+            questionBox.id = `question-box-${questionCount}`;
             questionBox.innerHTML = `
-                <div class ="question-header">
-                    <input type="text" placeholder="Enter your question" id="question-${questionCount}">
-                    <span class="points" onclick="addPoints(${questionCount})">Add Points</span>
+                <input type="text" placeholder="Enter your question" id="question-${questionCount}" required>
+                <input type="text" placeholder="Option A" id="optionA-${questionCount}" required>
+                <input type="text" placeholder="Option B" id="optionB-${questionCount}" required>
+                <input type="text" placeholder="Option C" id="optionC-${questionCount}" required>
+                <input type="text" placeholder="Option D" id="optionD-${questionCount}" required>
+                <label>Correct Option:</label>
+                <select id="correct-${questionCount}" required>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+                <input type="number" placeholder="Points" id="points-${questionCount}" min="1" required>
+                <div class="buttons">
+                    <button onclick="saveQuestion(${questionCount})">Save</button>
+                    <button onclick="deleteQuestion(${questionCount})">Delete</button>
                 </div>
-                <div class="answers" id="answers-${questionCount}"></div>
-                <div class="add-option" onclick="addAnswer(${questionCount})">+ Add Answer</div>
-                <div class="add-question" onclick="addQuestion()">+ Add Question</div>
             `;
             document.getElementById('questions-container').appendChild(questionBox);
         }
 
-        function addPoints(questionId) {
-            const points = prompt("Enter points for this question:");
-            if (points) {
-                const pointsElement = document.createElement('div');
-                pointsElement.textContent = `Points: ${points}`;
-                document.getElementById(`question-${questionId}`).parentNode.appendChild(pointsElement);
+        function saveQuestion(id) {
+            document.getElementById("success-message").style.display = "none";
+            document.getElementById("error-message").style.display = "none";
+
+            const question = document.getElementById(`question-${id}`).value.trim();
+            const optionA = document.getElementById(`optionA-${id}`).value.trim();
+            const optionB = document.getElementById(`optionB-${id}`).value.trim();
+            const optionC = document.getElementById(`optionC-${id}`).value.trim();
+            const optionD = document.getElementById(`optionD-${id}`).value.trim();
+            const correctOption = document.getElementById(`correct-${id}`).value;
+            const points = parseInt(document.getElementById(`points-${id}`).value, 10);
+
+            if (!question || !optionA || !optionB || !optionC || !optionD || !points) {
+                document.getElementById("error-message").textContent = "All fields are required.";
+                document.getElementById("error-message").style.display = "block";
+                return;
             }
+            
+            const questionData = {
+                question,
+                options: { A: optionA, B: optionB, C: optionC, D: optionD },
+                correctOption,
+                points,
+            };
+
+            fetch('http://localhost:3000/api/v1/question/add-question', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(questionData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("error-message").textContent = "Error: " + data.error;
+                    document.getElementById("error-message").style.display = "block";
+                } else {
+                    document.getElementById("success-message").style.display = "block";
+                    setTimeout(() => {
+                        document.getElementById("success-message").style.display = "none";
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                document.getElementById("error-message").textContent = "Fetch Error: " + error;
+                document.getElementById("error-message").style.display = "block";
+            });
         }
 
-        function addAnswer(questionId) {
-            const answersContainer = document.getElementById(`answers-${questionId}`);
-            const answerCount = answersContainer.children.length;
+        function deleteQuestion(id) {
+            document.getElementById(`question-box-${id}`).remove();
+        }
 
-            if (answerCount < 4) {
-                const answerBox = document.createElement('div');
-                answerBox.className = 'answer';
-                answerBox.innerHTML = `
-                    <input type="text" placeholder="Enter answer option" id="answer-${questionId}-${answerCount + 1}">
-                    <input type="radio" name="correct-answer-${questionId}" value="${answerCount + 1}">
-                    <i class="fas fa-check" style="display: none;"></i>
-                `;
-                answersContainer.appendChild(answerBox);
-
-                const inputField = answerBox.querySelector('input[type="text"]');
-                inputField.addEventListener('input', function() {
-                    answerBox.querySelector('i').style.display = inputField.value ? 'inline' : 'none';
-                });
-
-                if (answerCount === 3) {
-                    const addOptionButton = document.querySelector(`.add-option[onclick="addAnswer(${questionId})"]`);
-                    addOptionButton.style.display = 'none'; // Hide the button after 4 options
-                }
-            }
+        function finishTest() {
+            window.location.href = "dashboard.html";
         }
     </script>
 </body>
